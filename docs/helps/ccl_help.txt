@@ -1,0 +1,22 @@
+usage: c:\opt\ccl\wx86cl64 <options>
+         where <options> are one or more of:
+        -h, --help : this text
+        -V, --version : print version information and exit
+        -K, --terminal-encoding : specify character encoding to use for *TERMINAL-IO*
+        -n, --no-init : suppress loading of init file
+        -e, --eval : evaluate <form> (may need to quote <form> in shell)
+        -l, --load : load <file>
+        -T, --set-lisp-heap-gc-threshold : set lisp-heap-gc-threshold to <n>
+        -Q, --quiet : if --batch, also suppress printing of heralds, prompts
+        -R, --heap-reserve <n>: reserve <n> (default: 549755813888)
+                 bytes for heap expansion
+        -S, --stack-size <n>: set  size of initial thread's control stack to <n>
+        -Z, --thread-stack-size <n>: set default size of first (listener)  thread's stacks based on <n>
+        -b, --batch: exit when EOF on *STANDARD-INPUT*
+        --no-sigtrap : obscure option for running under GDB
+        --debug : try to ensure that kernel debugger uses a TTY for I/O
+        -I, --image-name <image-name>
+
+        Any arguments following the pseudoargument "--" are
+        not processed and are available to the application as
+        the value of CCL:*UNPROCESSED-COMMAND-LINE-ARGUMENTS* .

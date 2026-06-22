@@ -1,0 +1,46 @@
+GNU CLISP (http://clisp.cons.org/) is an ANSI Common Lisp implementation.
+Usage:  c:\opt\clisp-2.49/base/lisp.exe [options] [lispfile [argument ...]]
+ When 'lispfile' is given, it is loaded and '*ARGS*' is set
+ to the list of argument strings. Otherwise, an interactive
+ read-eval-print loop is entered.
+Informative output:
+ -h, --help    - print this help and exit
+ --version     - print the version information
+ --license     - print the licensing information
+ -help-image   - print image-specific help and exit
+Memory image selection:
+ -B lisplibdir - set the installation directory
+ -K linkingset - use this executable and memory image
+ -M memfile    - use this memory image
+ -m size       - memory size (size = nB or nKB or nMB)
+Internationalization:
+ -L language   - set user language
+ -N nlsdir     - NLS catalog directory
+ -Edomain encoding - set encoding
+Interoperability:
+ -q, --quiet, --silent, -v, --verbose - verbosity level:
+     affects banner, *LOAD-VERBOSE*/*COMPILE-VERBOSE*,
+     and *LOAD-PRINT*/*COMPILE-PRINT*
+ -w            - wait for a keypress after program termination
+ -I            - be ILISP-friendly
+ -disable-readline - do not use the gnu readline library
+Startup actions:
+ -ansi         - more ANSI CL compliance
+ -traditional  - traditional (undoes -ansi)
+ -modern       - start in a case-sensitive lowercase-preferring package
+ -p package    - start in the package
+ -C            - set *LOAD-COMPILING* to T
+ -norc         - do not load the user ~/.clisprc file
+ -lp dir       - add dir to *LOAD-PATHS* (can be repeated)
+ -i file       - load initfile (can be repeated)
+Actions:
+ -c [-l] lispfile [-o outputfile] - compile lispfile
+ -x expressions - execute the expressions, then exit
+ Depending on the image, positional arguments can mean:
+   lispscript [argument ...] - load script, then exit
+   [argument ...]            - run the init-function
+  arguments are placed in EXT:*ARGS* as strings.
+These actions put CLISP into a batch mode, which is overridden by
+ -on-error action - action can be one of debug, exit, abort, appease
+ -repl            - enter the interactive read-eval-print loop when done
+Default action is an interactive read-eval-print loop.
