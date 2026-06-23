@@ -52,6 +52,7 @@ if not %_EXITCODE%==0 goto end
 call :vscode
 if not %_EXITCODE%==0 (
     @rem optional
+    echo %_WARNING_LABEL% VS Code installation not found 1>&2
     set _EXITCODE=0
 )
 goto end
@@ -132,9 +133,9 @@ if not defined __ARG goto args_done
 if "%__ARG:~0,1%"=="-" (
     @rem option
     if "%__ARG%"=="-bash" ( set _BASH=1
+    ) else if "%__ARG%"=="-claude" ( set _USE_CLAUDE=1
     ) else if "%__ARG%"=="-debug" ( set _DEBUG=1
     ) else if "%__ARG%"=="-help" ( set _HELP=1
-    ) else if "%__ARG%"=="-claude" ( set _USE_CLAUDE=1
     ) else if "%__ARG%"=="-verbose" ( set _VERBOSE=1
     ) else (
         echo %_ERROR_LABEL% Unknown option "%__ARG%" 1>&2
@@ -432,6 +433,7 @@ set _VSCODE_PATH=
 set __CODE_CMD=
 for /f "delims=" %%f in ('where code.exe 2^>NUL') do set "__CODE_CMD=%%f"
 if defined __CODE_CMD (
+    for /f "delims=" %%i in ("%__CMD_CMD%") do set "_VSCODE_HOME=%%~dpi"
     if %_DEBUG%==1 echo %_DEBUG_LABEL% Using path of VSCode executable found in PATH 1>&2
     @rem keep _VSCODE_PATH undefined since executable already in path
     goto :eof
@@ -460,13 +462,15 @@ if not exist "%_VSCODE_HOME%\code.exe" (
 set "_VSCODE_PATH=;%_VSCODE_HOME%"
 goto :eof
 
-@rem input parameter: %1=verbose flag
+@rem input parameter: %1=use_claude %2=verbose
 :print_env
 set __USE_CLAUDE=%~1
 set __VERBOSE=%~2
 set __VERSIONS_LINE1=
 set __VERSIONS_LINE2=
 set __WHERE_ARGS=
+setlocal enabledelayedexpansion
+
 where /q "%CCL_HOME%:wx86cl64.exe"
 if %ERRORLEVEL%==0 (
     for /f "tokens=1,2,3,4,5,*" %%i in ('call "%CCL_HOME%\wx86cl64.exe" --version') do set "__VERSIONS_LINE1=%__VERSIONS_LINE1% ccl %%m,"
@@ -498,8 +502,8 @@ if %ERRORLEVEL%==0 (
 )
 where /q "%GIT_HOME%\usr\bin:diff.exe"
 if %ERRORLEVEL%==0 (
-   for /f "tokens=1-3,*" %%i in ('diff.exe --version ^| findstr diff') do set "__VERSIONS_LINE2=%__VERSIONS_LINE2% diff %%l,"
-    set __WHERE_ARGS=%__WHERE_ARGS% diff.exe
+    for /f "tokens=1-3,*" %%i in ('"%GIT_HOME%\usr\bin\diff.exe" --version ^| findstr diff') do set "__VERSIONS_LINE2=%__VERSIONS_LINE2% diff %%l,"
+    set __WHERE_ARGS=%__WHERE_ARGS% "%GIT_HOME%\usr\bin:diff.exe"
 )
 where /q "%GIT_HOME%\bin:bash.exe"
 if %ERRORLEVEL%==0 (
@@ -517,7 +521,7 @@ if %__VERBOSE%==1 (
     echo Tool paths: 1>&2
     for /f "tokens=*" %%p in ('where %__WHERE_ARGS%') do (
         set "__LINE=%%p"
-        setlocal enabledelayedexpansion
+        @rem setlocal enabledelayedexpansion
         echo    !__LINE:%USERPROFILE%=%%USERPROFILE%%! 1>&2
     )
     echo Environment variables: 1>&2
@@ -530,10 +534,11 @@ if %__VERBOSE%==1 (
     echo Path associations: 1>&2
     for /f "delims=" %%i in ('subst') do (
         set "__LINE=%%i"
-        setlocal enabledelayedexpansion
+        @rem setlocal enabledelayedexpansion
         echo    !__LINE:%USERPROFILE%=%%USERPROFILE%%! 1>&2
     )
 )
+endlocal
 goto :eof
 
 @rem #########################################################################
@@ -563,8 +568,10 @@ endlocal & (
             call "%_GIT_HOME%\bin\bash.exe" --login
         )
     )
-    @rem see https://wiip.fr/en/blog/claude-code-powershell-tool
-    set CLAUDE_CODE_USE_POWERSHELL_TOOL=1
+    if %_USE_CLAUDE%==1 (
+        @rem see https://wiip.fr/en/blog/claude-code-powershell-tool
+        set CLAUDE_CODE_USE_POWERSHELL_TOOL=1
+    )
     if %_DEBUG%==1 echo %_DEBUG_LABEL% _EXITCODE=%_EXITCODE% 1>&2
     for /f "delims==" %%i in ('set ^| findstr /b "_"') do set %%i=
 )

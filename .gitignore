@@ -5,6 +5,7 @@
 *.config
 *.csv
 *.dot
+*.exe
 *.hprof
 *.iml
 *.log
@@ -14,6 +15,7 @@
 *.orig
 *.pyc
 *.rej
+*.src.tar.xz
 *.swn
 *.swo
 *.swp
@@ -22,6 +24,12 @@
 .externalToolBuilders
 .factorypath
 .idea
+bench-results.json
+core.*
+env
+workingsets.xml
+
+# Directories
 .metadata/
 .project
 .settings/
@@ -31,16 +39,15 @@ llvm-*.src/
 svmbuild/
 target/
 test-suite-*.src/
-core.*
-env
-bench-results.json
-*.src.tar.xz
-workingsets.xml
 
-
-# project specific
-.claude/
+# Claude specific
 CLAUDE.md
-*_LOCAL/
+CLAUDE*local.md
+.claude/
+
+# Project specific
+*_LOCAL.ini
+*_LOCAL.json
 *_LOCAL.md
 *_LOCAL.txt
+*_LOCAL/
