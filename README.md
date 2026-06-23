@@ -171,7 +171,7 @@ In our case we downloaded the following installation files (see <a href="#proj_d
 [cmucl]: https://cmucl.org/ "https://cmucl.org/"
 [cobol_examples]: https://github.com/michelou/cobol-examples#top
 [common_lisp]: https://lisp-lang.org/ "https://lisp-lang.org/"
-[component_pascal_examples]: https://github.com/michelou/compondent-pascal-examples#top
+[component_pascal_examples]: https://github.com/michelou/cp-examples#top
 [conemu_downloads]: https://github.com/Maximus5/ConEmu/releases "https://github.com/Maximus5/ConEmu/releases"
 [conemu_relnotes]: https://conemu.github.io/blog/2023/07/24/Build-230724.html "https://conemu.github.io/blog/2023/07/24/Build-230724.html"
 [cpp_examples]: https://github.com/michelou/cpp-examples#top
